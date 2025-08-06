@@ -209,15 +209,14 @@ if __name__ == "__main__":
     parser.add_argument("--username", "-u", help="用户名", required=False)
     parser.add_argument("--password", "-p", help="密码", required=False)
     parser.add_argument("--tick", "-t", type=int, default=60 * 5, help="检测间隔秒，默认300秒")
-
     args = parser.parse_args()
 
     # 优先使用命令行参数，没有时退回环境变量
     userName = args.username if args.username else os.getenv("userName")
     passWord = args.password if args.password else os.getenv("password")
-
+    tick = args.tick if args.tick else 60*5
     if not userName or not passWord:
-        print("错误：请通过 --username 和 --password 提供用户名和密码，或者设置环境变量 userName 和 password")
+        log.info("错误：请通过 --username 和 --password 提供用户名和密码，或者设置环境变量 userName 和 password")
         exit(1)
     loginRobot = LoginRobot(userName,passWord,HOST)
-    loginRobot.tick_login(tick=60*5)
+    loginRobot.tick_login(tick=tick)
